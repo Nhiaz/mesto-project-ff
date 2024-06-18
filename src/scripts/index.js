@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import { initialCards } from '../components/cards.js';
-import { addCard, likeCard, deleteCard } from '../components/card.js';
+import { createCard, likeCard, deleteCard } from '../components/card.js';
 import { openModal, closeModal } from '../components/modal.js';
 
 const popupImageForm = document.querySelector('.popup_type_image');
@@ -25,7 +25,7 @@ popupNewForm.classList.add('popup_is-animated');
 popupImageForm.classList.add('popup_is-animated');
 
 initialCards.forEach(function (item) {
-    const cardElements = addCard(item.name, item.link, deleteCard, likeCard, openImage);
+    const cardElements = createCard(item.name, item.link, deleteCard, likeCard, openImage);
     cardContainer.append(cardElements);
 });
 
@@ -37,7 +37,7 @@ function openImage(cardTitle, cardLink) {
 }
 
 formNewPlace.addEventListener('submit', function (evt) {
-    const cardElements = addCard(
+    const cardElements = createCard(
         cardName.value,
         cardLink.value,
         deleteCard,

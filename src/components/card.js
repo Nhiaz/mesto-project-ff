@@ -1,6 +1,6 @@
-export { deleteCard, likeCard, addCard };
+export { deleteCard, likeCard, createCard };
 
-function addCard(title, imageLink, deleteCard, likeCard, openImage) {
+function createCard(title, imageLink, deleteCard, likeCard, openImage) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate
     .querySelector('.places__item')
@@ -28,6 +28,6 @@ const deleteCard = function (evt) {
 };
 
 const likeCard = function (evt) {
-  const likeButton = evt.target.closest('.card__like-button');
+  evt.target.closest('.card__like-button');
   likeButton.classList.toggle('card__like-button_is-active');
 };
