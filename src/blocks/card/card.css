@@ -12,4 +12,8 @@
   border-radius: 10px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 5px;
 }
