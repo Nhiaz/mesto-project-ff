@@ -74,8 +74,8 @@ Promise.all([api.getInitialCards(), api.getUser()])
 
 popupAvatarForm.addEventListener("submit", function (evt) {
   evt.preventDefault();
-  const pb = popupAvatarForm.querySelector(".popup__button")
-  pb.textContent = "Сохранение..."
+  const popupButton = popupAvatarForm.querySelector(".popup__button")
+  popupButton.textContent = "Сохранение..."
 
 
   api.updateUserAvatar(cardImageUrl.value)
@@ -85,14 +85,14 @@ popupAvatarForm.addEventListener("submit", function (evt) {
     })
     .catch(err => console.log(err))
     .finally(() =>
-      pb.textContent = "Сохранить"
+      popupButton.textContent = "Сохранить"
     )
 
 })
 
 formNewPlace.addEventListener("submit", function (evt) {
-  const pb = formNewPlace.querySelector(".popup__button")
-  pb.textContent = "Сохранение..."
+  const popupButton = formNewPlace.querySelector(".popup__button")
+  popupButton.textContent = "Сохранение..."
 
   api.addNewCards(cardName.value, cardLink.value).then(res => {
     const cardElements = addCard({
@@ -109,15 +109,15 @@ formNewPlace.addEventListener("submit", function (evt) {
   })
     .catch(err => console.log(err))
     .finally(() =>
-      pb.textContent = "Сохранить"
+      popupButton.textContent = "Сохранить"
     )
 
 });
 
 formEditProfile.addEventListener("submit", function (evt) {
   evt.preventDefault();
-  const pb = formEditProfile.querySelector(".popup__button")
-  pb.textContent = "Сохранение..."
+  const popupButton = formEditProfile.querySelector(".popup__button")
+  popupButton.textContent = "Сохранение..."
 
   api.updateUser(nameInput.value, jobInput.value)
     .then(r => {
@@ -128,7 +128,7 @@ formEditProfile.addEventListener("submit", function (evt) {
     })
     .catch(err => console.log(err))
     .finally(() =>
-      pb.textContent = "Сохранить"
+      popupButton.textContent = "Сохранить"
     )
 });
 
@@ -190,5 +190,5 @@ popupEditForm
   .addEventListener("click", function () {
     closeModal(popupEditForm);
   });
-c
+
 enableValidation()

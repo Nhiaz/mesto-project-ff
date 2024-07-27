@@ -52,7 +52,7 @@ function addCard(inputConfig) {
   return cardElement;
 }
 
-const deleteCard = function (event, likeCounter) {
+const deleteCard = function (event) {
   api.deleteCard(event.target.dataset.cardId)
     .then(() => event.target.closest('.places__item').remove())
     .catch(err => console.log(err))
