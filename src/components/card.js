@@ -1,7 +1,24 @@
 export { deleteCard, likeCard, addCard };
 import api from "./api";
 
-function addCard(title, imageLink, deleteCard, likeCard, openImage, id, likes = 0, liked = false) {
+function addCard(inputConfig) {
+
+  const config = {
+    name: "",
+    link: "",
+    owner: null,
+    _id: null,
+    _userId: null,
+    deleteCard: () => { },
+    likeCard: () => { },
+    openImage: () => { },
+    likes: [],
+    ...inputConfig
+  }
+
+  let liked = !!config.likes.filter(e => e._id === config._userId).length
+  let owned = config._userId === config.owner?._id
+
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate
     .querySelector('.places__item')
@@ -14,43 +31,47 @@ function addCard(title, imageLink, deleteCard, likeCard, openImage, id, likes = 
 
   if (liked)
     likeButton.classList.toggle('card__like-button_is-active');
-  cardCaption.textContent = title;
-  likeCounter.textContent = likes;
-  cardImage.src = imageLink;
-  cardImage.alt = `На фотографии изображён: ${title}`;
 
-  deleteCardButton.dataset.cardId = id
-  likeButton.dataset.cardId = id
+  if (!owned)
+    deleteCardButton.remove()
 
-  deleteCardButton.addEventListener('click', deleteCard);
-  likeButton.addEventListener('click', evt => likeCard(evt, likeCounter));
+  cardCaption.textContent = config.name;
+  likeCounter.textContent = config.likes.length;
+  cardImage.src = config.link;
+  cardImage.alt = `На фотографии изображён: ${config.name}`;
+
+  deleteCardButton.dataset.cardId = config._id
+  likeButton.dataset.cardId = config._id
+
+  deleteCardButton.addEventListener('click', config.deleteCard);
+  likeButton.addEventListener('click', event => config.likeCard(event, likeCounter));
   cardImage.addEventListener('click', function () {
-    openImage(title, imageLink);
+    config.openImage(config.name, config.link);
   });
 
   return cardElement;
 }
 
-const deleteCard = function (evt, lc) {
-  api.deleteCard(evt.target.dataset.cardId)
-    .then(() => evt.target.closest('.places__item').remove())
+const deleteCard = function (event, likeCounter) {
+  api.deleteCard(event.target.dataset.cardId)
+    .then(() => event.target.closest('.places__item').remove())
     .catch(err => console.log(err))
 };
 
-const likeCard = function (evt, lc) {
-  const likeButton = evt.target.closest('.card__like-button');
+const likeCard = function (event, likeCounter) {
+  const likeButton = event.target.closest('.card__like-button');
   if (likeButton.classList.contains("card__like-button_is-active"))
     api.unlikeCard(likeButton.dataset.cardId)
       .then(() => {
         likeButton.classList.toggle('card__like-button_is-active')
-        lc.textContent = Number(lc.textContent) - 1
+        likeCounter.textContent = Number(likeCounter.textContent) - 1
       })
       .catch(err => console.log(err))
   else
     api.likeCard(likeButton.dataset.cardId)
       .then(() => {
         likeButton.classList.toggle('card__like-button_is-active')
-        lc.textContent = Number(lc.textContent) + 1
+        likeCounter.textContent = Number(likeCounter.textContent) + 1
       })
       .catch(err => console.log(err))
 };
